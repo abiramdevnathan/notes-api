@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Note</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background: #f5f5f5;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        input#title {
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            border-radius: 0;
+            padding-left: 0;
+        }
+
+        input#description {
+            font-size: 16px;
+            color: #666;
+            border: none;
+            border-bottom: 1px solid #eee;
+            border-radius: 0;
+            padding-left: 0;
+        }
+
+        textarea#body {
+            height: 300px;
+            border: none;
+            resize: vertical;
+            padding-left: 0;
+        }
+
+        .save-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.location='index.html'">← Back</button>
+
+    <input type="text" id="title" placeholder="Title" autofocus>
+    <input type="text" id="description" placeholder="Description">
+    <textarea id="body" placeholder="Write your note here..."></textarea>
+
+    <button class="save-btn" onclick="saveNote()">Save</button>
+
+    <script>
+        async function saveNote() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const body = document.getElementById('body').value;
+
+            if (!title) {
+                alert('Please enter a title');
+                return;
+            }
+
+            await fetch('/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description, body })
+            });
+
+            window.location = 'index.html';
+        }
+    </script>
+</body>
+</html>
